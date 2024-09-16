@@ -1,8 +1,20 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'firebase_options.dart';
 
-void main() {
+// ...
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+   await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+);
   runApp(MyApp());
+ 
 }
+
+
+
+
 
 class MyApp extends StatelessWidget {
   @override
@@ -31,7 +43,7 @@ class CarListPage extends StatefulWidget {
 }
 
 class _CarListPageState extends State<CarListPage> {
-  List<Car> cars = []; // Lista de carros
+  List<Car> cars = []; 
   final _formKey = GlobalKey<FormState>();
   String _name = '';
   String _model = '';
@@ -44,14 +56,13 @@ class _CarListPageState extends State<CarListPage> {
       ),
       body: Column(
         children: [
-          _buildForm(), // Formulario para agregar carros
-          Expanded(child: _buildCarList()), // Lista de carros
+          _buildForm(), 
+          Expanded(child: _buildCarList()), 
         ],
       ),
     );
   }
 
-  // Construye el formulario para crear/editar un carro
   Widget _buildForm() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -94,7 +105,7 @@ class _CarListPageState extends State<CarListPage> {
     );
   }
 
-  // Construye la lista de carros
+
   Widget _buildCarList() {
     return ListView.builder(
       itemCount: cars.length,
@@ -120,7 +131,7 @@ class _CarListPageState extends State<CarListPage> {
     );
   }
 
-  // Añade un nuevo carro a la lista
+
   void _addCar() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
@@ -131,7 +142,6 @@ class _CarListPageState extends State<CarListPage> {
     }
   }
 
-  // Edita un carro existente
   void _editCar(int index) {
     Car car = cars[index];
     TextEditingController nameController = TextEditingController(text: car.name);
@@ -177,8 +187,7 @@ class _CarListPageState extends State<CarListPage> {
       },
     );
   }
-
-  // Elimina un carro de la lista
+ 
   void _deleteCar(int index) {
     setState(() {
       cars.removeAt(index);
